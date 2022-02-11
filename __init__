@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+[ -z $LICENSE ] && LICENSE="$1"
+
+if [ ! -z $LICENSE ]; then
+  [ -z $YEAR ] && YEAR=$(date +%Y)
+  replacement="s/<YEAR>/$YEAR/g"
+  [ ! -z $AUTHOR ] && replacement="$replacement; s/<OWNER>/$AUTHOR/g"
+
+  wget -q -O- "https://raw.githubusercontent.com/OpenSourceOrg/licenses/master/texts/plain/$1" | \
+  sed -e "$replacement"
+else
+  echo "[Invalid Command]"
+  echo "Command Format: $0 <LICENSE_TYPE>"
+fi
